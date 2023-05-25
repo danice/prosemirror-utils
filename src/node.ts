@@ -102,5 +102,5 @@ export const findChildrenByMark = (node, markType, descend) => {
 // }
 // ```
 export const contains = (node, nodeType) => {
-  return !!findChildrenByType(node, nodeType).length;
+  return !!findChildrenByType(node, nodeType, null).length;
 };
