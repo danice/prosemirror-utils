@@ -1,7 +1,7 @@
-import { NodeSelection } from 'prosemirror-state';
-import { Fragment, Node as PMNode } from 'prosemirror-model';
+import { NodeSelection, Selection } from 'prosemirror-state';
+import { Node as PMNode } from 'prosemirror-model';
 import { setTextSelection } from './transforms';
-import { findParentNodeClosestToPos } from './selection';
+import { Node as ProsemirrorNode, NodeType, Mark, MarkType, ResolvedPos, Fragment } from 'prosemirror-model';
 
 // :: (selection: Selection) → boolean
 // Checks if current selection is a `NodeSelection`.
@@ -11,9 +11,10 @@ import { findParentNodeClosestToPos } from './selection';
 //   // ...
 // }
 // ```
-export const isNodeSelection = selection => {
+export function isNodeSelection(selection: Selection): boolean
+{
   return selection instanceof NodeSelection;
-};
+}
 
 // (nodeType: union<NodeType, [NodeType]>) → boolean
 // Checks if the type a given `node` equals to a given `nodeType`.
@@ -79,7 +80,7 @@ export const removeNodeAtPos = position => tr => {
 //   // ...
 // }
 // ```
-export const canInsert = ($pos, content) => {
+export function canInsert($pos: ResolvedPos, content: ProsemirrorNode | Fragment): boolean {
   const index = $pos.index();
 
   if (content instanceof Fragment) {
@@ -88,7 +89,8 @@ export const canInsert = ($pos, content) => {
     return $pos.parent.canReplaceWith(index, index, content.type);
   }
   return false;
-};
+}
+ 
 
 // (node: ProseMirrorNode) → boolean
 // Checks if a given `node` is an empty paragraph
